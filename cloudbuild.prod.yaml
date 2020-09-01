@@ -54,7 +54,7 @@ steps:
     args:
       - "-c"
       - |
-        sed 's#img-app-deployment#gcrio/$PROJECT_ID/app-laravel:$SHORT_SHA#g' k8s/app/deployment.yaml > k8/app/deployment-newyaml;
+        sed 's#img-app-deployment#gcrio/$PROJECT_ID/app-laravel:$SHORT_SHA#g' k8s/app/deployment.yaml > k8/app/deployment-new.yaml;
         cat k8s/app/deployment-new.yaml
 
   - id: "Deployment k8s"
@@ -62,7 +62,7 @@ steps:
     args:
       - "apply"
       - "-f"
-      - "k8s/app/deployment-newyaml"
+      - "k8s/app/deployment-new.yaml"
     env:
       - "CLOUDSDK_COMPUTE_ZONE=us-central1-c"
       - "CLOUDSDK_CONTAINER_CLUSTER=my-first-cluster-1"
