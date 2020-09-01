@@ -48,10 +48,21 @@ steps:
     name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA"]
 
-  # - id: "Ajustando Deployment do App no k8s"
-  #   name: "gcr.io/cloud-builders/gcloud"
-  #   entrypoint: "/bin/sh"
-  #   args:
-  #     - "-c"
-  #     - |
-  #       sed 's#img-app-deployment#gcrio/$PROJECT_ID/app-laravel:$SHORT_SHA#g' k8s/app/deployment.yaml > k8/app/deployment-newyaml;
+  - id: "Ajustando Deployment do App no k8s"
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "/bin/sh"
+    args:
+      - "-c"
+      - |
+        sed 's#img-app-deployment#gcrio/$PROJECT_ID/app-laravel:$SHORT_SHA#g' k8s/app/deployment.yaml > k8/app/deployment-newyaml;
+        cat k8s/app/deployment-new.yaml
+
+  - id: "Deployment k8s"
+    name: "gcr.io/cloud-builders/kubectl"
+    args:
+      - "apply"
+      - "-f"
+      - "k8s/app/deployment-newyaml"
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=us-central1-c"
+      - "CLOUDSDK_CONTAINER_CLUSTER=my-first-cluster-1"
