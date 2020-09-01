@@ -46,7 +46,7 @@ steps:
 
   - id: "Push da Imagem"
     name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcrio/$PROJECT_ID/app-laravel:$SHORT_SHA"]
+    args: ["push", "gcr.io/$PROJECT_ID/app-laravel:$SHORT_SHA"]
 
   # - id: "Ajustando Deployment do App no k8s"
   #   name: "gcr.io/cloud-builders/gcloud"
